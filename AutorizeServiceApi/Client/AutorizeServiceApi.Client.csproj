@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\AutorizeServiceApi.Domain\AutorizeServiceApi.Domain.csproj" />
     <ProjectReference Include="..\Shared\AutorizeServiceApi.Shared.csproj" />
   </ItemGroup>
 
