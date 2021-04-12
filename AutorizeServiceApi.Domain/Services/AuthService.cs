@@ -2,21 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using AutorizeServiceApi.Domain.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace AutorizeServiceApi.Domain.Services
 {
     public class AuthService : IAuthService
     {
         private readonly HttpClient _httpClient;
-        public AuthService(HttpClient httpClient)
+        public AuthService(IConfiguration configuration/*, HttpClient httpClient*/)
         {
-            _httpClient = httpClient;
+            //_httpClient = httpClient;
+            _httpClient = new HttpClient()
+            {
+                BaseAddress = new Uri(configuration["AuthorizeServiceAddress"])
+            };
+            this._httpClient.DefaultRequestHeaders.Accept.Clear();
+            this._httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
         }
-        public async Task<CurrentUser> CurrentUserInfo()
+    public async Task<CurrentUser> CurrentUserInfo()
         {
             var result = await _httpClient.GetFromJsonAsync<CurrentUser>("api/auth/currentuserinfo");
             return result;
@@ -29,7 +38,7 @@ namespace AutorizeServiceApi.Domain.Services
         }
         public async Task Logout()
         {
-            var result = await _httpClient.PostAsync("api/auth/logout", null);
+            var result = await _httpClient.PostAsync("api/auth/logout",null);
             result.EnsureSuccessStatusCode();
         }
         public async Task Register(RegisterRequest registerRequest)

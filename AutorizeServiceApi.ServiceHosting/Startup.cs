@@ -32,6 +32,14 @@ namespace AutorizeServiceApi.ServiceHosting
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddCors(
+            //    o =>
+            //    {
+            //        o.AddPolicy("CorsPolicy", policy =>
+            //        {
+            //            policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            //        });
+            //    });
 
             services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
                 b => b.MigrationsAssembly("AutorizeServiceApi.ServiceHosting")));
@@ -59,7 +67,7 @@ namespace AutorizeServiceApi.ServiceHosting
             });
             services.AddIdentityServer()
                .AddApiAuthorization<ApplicationUser, ApplicationDBContext>();
-
+            services.AddIdentityServerBuilder();
             services.AddAuthentication()
                .AddIdentityServerJwt();
 
@@ -76,6 +84,7 @@ namespace AutorizeServiceApi.ServiceHosting
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AuthentificationContextInitializer AuthContext)
         {
+            //app.UseCors("CorsPolicy");
             AuthContext.InitializeAsync().Wait();
 
             if (env.IsDevelopment())

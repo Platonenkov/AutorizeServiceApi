@@ -57,10 +57,12 @@ namespace AutorizeServiceApi.ServiceHosting.Controllers
         [HttpGet]
         public CurrentUser CurrentUserInfo()
         {
+            var test = User.Claims.FirstOrDefault(f => f.Type == "email")?.Value;
             return new CurrentUser
             {
                 IsAuthenticated = User.Identity.IsAuthenticated,
                 UserName = User.Identity.Name,
+                Email = User.Claims.FirstOrDefault(f=>f.Type=="email")?.Value,
                 Claims = User.Claims
                    .ToDictionary(c => c.Type, c => c.Value)
             };

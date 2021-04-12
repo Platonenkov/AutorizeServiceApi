@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace ShopTemplate.ServiceHosting.Controllers
+namespace AutorizeServiceApi.ServiceHosting.Controllers
 {
     [ApiController, Route("api/[controller]"), Produces("application/json")]
     public class UsersController : ControllerBase

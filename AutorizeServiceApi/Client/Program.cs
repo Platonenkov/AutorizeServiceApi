@@ -7,7 +7,9 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using AutorizeServiceApi.Domain.Helpers;
 using AutorizeServiceApi.Domain.Services;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration.Memory;
 
@@ -29,8 +31,20 @@ namespace AutorizeServiceApi.Client
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-            var config = new Dictionary<string, string> { { "AuthorizeServiceAddress", "http://localhost:60777" } };
+            builder.Services.AddSingleton(async p =>
+            {
+                var httpClient = p.GetRequiredService<HttpClient>();
+                return await httpClient.GetJsonAsync<AutorizeServiceApiSettings>("api/AutorizeServiceApiSettings");
+            });
+
+            HttpClient client = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress), Timeout = TimeSpan.FromMinutes(5) };
+            var setting = await client.GetJsonAsync<AutorizeServiceApiSettings>("api/AutorizeServiceApiSettings");
+
+
+            var config = new Dictionary<string, string> { { "AuthorizeServiceAddress", setting.AuthorizeServiceAddress } };
             builder.Configuration.Add(new MemoryConfigurationSource { InitialData = config });
+            //var config = new Dictionary<string, string> { { "AuthorizeServiceAddress", "http://localhost:60777" } };
+            //builder.Configuration.Add(new MemoryConfigurationSource { InitialData = config });
 
             await builder.Build().RunAsync();
         }
