@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>820309ee-06df-4ff7-a80c-595f854ec26b</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,5 +22,7 @@
     <ProjectReference Include="..\AutorizeServiceApi.DAL\AutorizeServiceApi.DAL.csproj" />
     <ProjectReference Include="..\AutorizeServiceApi.Domain\AutorizeServiceApi.Domain.csproj" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

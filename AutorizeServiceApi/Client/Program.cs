@@ -28,7 +28,6 @@ namespace AutorizeServiceApi.Client
             builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<CustomStateProvider>());
             builder.Services.AddScoped<IAuthService, AuthService>();
 
-
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
             builder.Services.AddSingleton(async p =>
@@ -45,7 +44,6 @@ namespace AutorizeServiceApi.Client
             builder.Configuration.Add(new MemoryConfigurationSource { InitialData = config });
             //var config = new Dictionary<string, string> { { "AuthorizeServiceAddress", "http://localhost:60777" } };
             //builder.Configuration.Add(new MemoryConfigurationSource { InitialData = config });
-
             await builder.Build().RunAsync();
         }
     }
