@@ -62,7 +62,9 @@ namespace AutorizeServiceApi.ServiceHosting.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> Logout(string logoutId)
         {
-            var logout = await _interaction.GetLogoutContextAsync(logoutId);
+            var logout_context = await _interaction.CreateLogoutContextAsync();
+
+            var logout = await _interaction.GetLogoutContextAsync(logout_context);
             await _signInManager.SignOutAsync();
             return Redirect(logout.PostLogoutRedirectUri);
         }

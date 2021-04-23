@@ -115,12 +115,11 @@ namespace AutorizeServiceApi.ServiceHosting
             services.AddTransient<AuthentificationContextInitializer>();
 
 
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AutorizeServiceApi.ServiceHosting", Version = "v1" });
             });
-            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -144,12 +143,6 @@ namespace AutorizeServiceApi.ServiceHosting
             app.UseIdentityServer();
             app.UseAuthentication();
             app.UseAuthorization();
-
-            //app.UseMvc(
-            //    r =>
-            //    {
-            //        r.MapRoute()
-            //    });
 
             app.UseEndpoints(endpoints =>
             {
